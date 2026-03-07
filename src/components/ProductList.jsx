@@ -22,8 +22,8 @@ function ProductList() {
   }
 
   return (
-    <>
-      <h1 className="mb-10">Product List</h1>
+    <div className="w-full ">
+      <h1 className="mb-10 text-center">Product List</h1>
       <div className="flex items-center justify-center flex-wrap gap-6">
         {products.map((product) => (
           <ProductCard
@@ -35,25 +35,25 @@ function ProductList() {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 const ProductCard = ({ image, name, price, dispatch }) => {
   return (
-    <div className=" bg-white border border-black/5 shadow-sm w-[250px] rounded-lg overflow-hidden py-4">
+    <div className=" bg-white border border-black/5 shadow-sm w-[80%] sm:w-[250px] rounded-lg p-4">
       <img
         src={image}
         alt={name}
         className="w-full h-48 object-contain text-center "
       />
-      <div className="p-4 text-center">
+      <div className="py-4 text-center">
         <h2 className="font-bold font-cinzel text-gray-800">
           {name.length > 20 ? `${name.slice(0, 15)}...` : name}
         </h2>
         <p className="mt-2 text-gray-600 text-lg">${price}</p>
         <button
           onClick={dispatch}
-          className="mt-4  border-black border text-black font-semibold py-2 px-4 rounded"
+          className="mt-4 text-sm  border-black border text-black font-semibold p-2 rounded"
         >
           Add to Cart
         </button>

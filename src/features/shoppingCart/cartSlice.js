@@ -17,12 +17,15 @@ const cartSlice = createSlice({
         console.log("exitst");
 
         existingItem.quantity += 1;
-        console.log("existingItem.quantity", existingItem.quantity);
       } else {
         state.items.push({ ...action.payload, quantity: 1 });
       }
       state.tempItems = [...state.items];
-      console.log("state.tempItems", state.tempItems);
+      state.totalPrice = state.items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0,
+      );
+      console.log("total", state.totalPrice);
     },
   },
 });
