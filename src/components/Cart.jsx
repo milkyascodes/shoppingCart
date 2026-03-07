@@ -1,5 +1,6 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { removeFromCart } from "../features/shoppingCart/cartSlice";
 
 function Cart() {
   const {
@@ -7,6 +8,12 @@ function Cart() {
     tempItems,
     totalPrice,
   } = useSelector((state) => state.cart);
+
+  const dispatch = useDispatch();
+
+  // const handleRemoveItem = (id) => {
+  //   console.log("id ", id);
+  // };
 
   const navigate = useNavigate();
   return (
@@ -24,7 +31,10 @@ function Cart() {
       </div>
 
       {cartItems.map((item) => (
-        <div className="flex items-center bg-white  overflow-hidden mb-4 p-4">
+        <div
+          key={item.id}
+          className="flex items-center bg-white  overflow-hidden mb-4 p-4"
+        >
           {/* Product Image */}
           <img
             src={item.image}
@@ -51,7 +61,10 @@ function Cart() {
                 -
               </button>
             </div>
-            <button className="bg-white text-black  border border-black/5 shadow-sm  text-sm  hover:shadow-lg  font-semibold  p-2 rounded">
+            <button
+              onClick={() => dispatch(removeFromCart(item))}
+              className="bg-white text-black  border border-black/5 shadow-sm  text-sm  hover:shadow-lg  font-semibold  p-2 rounded"
+            >
               Remove
             </button>
           </div>
