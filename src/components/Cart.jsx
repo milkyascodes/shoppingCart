@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { removeFromCart } from "../features/shoppingCart/cartSlice";
+import {
+  removeFromCart,
+  decreaseQuantity,
+  increaseQuantity,
+} from "../features/shoppingCart/cartSlice";
 
 function Cart() {
   const {
@@ -8,13 +12,7 @@ function Cart() {
     tempItems,
     totalPrice,
   } = useSelector((state) => state.cart);
-
   const dispatch = useDispatch();
-  console.log("empty");
-
-  // const handleRemoveItem = (id) => {
-  //   console.log("id ", id);
-  // };
 
   const navigate = useNavigate();
   return (
@@ -51,16 +49,22 @@ function Cart() {
               {item.title}
             </h2>
             <p className="text-gray-600 mt-1">$ {item.price}</p>
-            <p className="text-gray-500 mt-1">{item.quantity} PCS</p>
           </div>
 
           {/* Remove / Action Buttons */}
           <div className="flex justify-between flex-col  gap-4">
-            <div className="flex justify-end gap-4">
-              <button className="bg-white  text-black border border-black/5 shadow-sm  text-sm  hover:shadow-lg  font-semibold py-1 px-2 rounded">
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => dispatch(increaseQuantity(item))}
+                className="bg-white  text-black border border-black/5 shadow-sm  text-sm  hover:shadow-lg  font-semibold py-1 px-2 rounded"
+              >
                 +
               </button>
-              <button className="bg-white text-black  border border-black/5 shadow-sm  text-sm  hover:shadow-lg  font-semibold py-1 px-2 rounded">
+              <p className="text-gray-500 ">{item.quantity}</p>
+              <button
+                onClick={() => dispatch(decreaseQuantity(item))}
+                className="bg-white text-black  border border-black/5 shadow-sm  text-sm  hover:shadow-lg  font-semibold py-1 px-2 rounded"
+              >
                 -
               </button>
             </div>
