@@ -7,11 +7,7 @@ import {
 } from "../features/shoppingCart/cartSlice";
 
 function Cart() {
-  const {
-    items: cartItems,
-    tempItems,
-    totalPrice,
-  } = useSelector((state) => state.cart);
+  const { items: cartItems, totalPrice } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
