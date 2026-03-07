@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../features/shoppingCart/productSlice";
+import { addToCart } from "../features/shoppingCart/cartSlice";
 
 function ProductList() {
   const { items: products, status } = useSelector((state) => state.products);
@@ -30,13 +31,14 @@ function ProductList() {
             image={product.image}
             name={product.title}
             price={product.price}
+            dispatch={() => dispatch(addToCart(product))}
           />
         ))}
       </div>
     </>
   );
 }
-const ProductCard = ({ image, name, price }) => {
+const ProductCard = ({ image, name, price, dispatch }) => {
   return (
     <div className=" bg-white border border-black/5 shadow-sm w-[250px] rounded-lg overflow-hidden py-4">
       <img
@@ -49,7 +51,10 @@ const ProductCard = ({ image, name, price }) => {
           {name.length > 20 ? `${name.slice(0, 15)}...` : name}
         </h2>
         <p className="mt-2 text-gray-600 text-lg">${price}</p>
-        <button className="mt-4  border-black border text-black font-semibold py-2 px-4 rounded">
+        <button
+          onClick={dispatch}
+          className="mt-4  border-black border text-black font-semibold py-2 px-4 rounded"
+        >
           Add to Cart
         </button>
       </div>

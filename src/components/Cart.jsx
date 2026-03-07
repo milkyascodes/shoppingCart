@@ -1,4 +1,7 @@
+import { useSelector } from "react-redux";
+
 function Cart() {
+  useSelector((state) => console.log(state.cart));
   return (
     <div>
       <div className="flex justify-between items-center mb-10">
