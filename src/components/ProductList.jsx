@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../features/shoppingCart/productSlice";
 import { addToCart } from "../features/shoppingCart/cartSlice";
+import Navbar from "./Navbar";
 
 function ProductList() {
   const { items: products, status } = useSelector((state) => state.products);
@@ -23,6 +24,7 @@ function ProductList() {
 
   return (
     <div className="w-full ">
+      <Navbar />
       <h1 className="mb-10 text-center">Product List</h1>
       <div className="flex items-center justify-center flex-wrap gap-6">
         {products.map((product) => (

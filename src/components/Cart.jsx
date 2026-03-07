@@ -10,6 +10,7 @@ function Cart() {
   } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
+  console.log("empty");
 
   // const handleRemoveItem = (id) => {
   //   console.log("id ", id);
@@ -21,13 +22,15 @@ function Cart() {
       <div className="flex justify-between items-center mb-10">
         <button
           onClick={() => navigate("/")}
-          className="  text-black rounded-md"
+          className=" text-black rounded-md"
         >
           ← Continue Shopping
         </button>
-        <h1>
-          Total: <span className="font-bold">$ {totalPrice.toFixed(2)}</span>
-        </h1>
+        {cartItems.length !== 0 && (
+          <h1>
+            Total: <span className="font-bold">$ {totalPrice.toFixed(2)}</span>
+          </h1>
+        )}
       </div>
 
       {cartItems.map((item) => (
@@ -71,7 +74,16 @@ function Cart() {
         </div>
       ))}
 
-      <button className=" w-full py-2 px-4 font-bold bg-green-400 text-white rounded-md">
+      {cartItems.length === 0 && (
+        <div className="flex flex-col gap-2 mb-10 items-center">
+          <p className="font-bold">Your cart is Empty.</p>
+          <p>Items you add will be displayed here.</p>
+        </div>
+      )}
+      <button
+        disabled={cartItems.length === 0}
+        className=" disabled:bg-gray-300 w-full py-2 px-4 font-bold bg-green-400 text-white rounded-md"
+      >
         Check out
       </button>
     </div>
