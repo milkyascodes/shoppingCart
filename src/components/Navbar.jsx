@@ -1,16 +1,39 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Navbar() {
-  const [isLoginPage, setIsLoginPage] = useState(false);
   const { items: cartItems } = useSelector((state) => state.cart);
+
+  const location = useLocation();
+
+  function getLinkInfo(path) {
+    switch (path) {
+      case "/":
+        return { to: "/register", text: "Create New Account" };
+      case "/login":
+        return { to: "/register", text: "Create New Account" };
+      case "/register":
+        return { to: "/login", text: "Login" };
+      default:
+        return { to: "/register", text: "Register" };
+    }
+  }
+
+  const { to, text } = getLinkInfo(location.pathname);
 
   const isLoggedIn = false;
 
+  useEffect(() => {
+    getLinkInfo(location);
+  }, [location]);
+
   return (
     <nav className="flex items-center justify-between w-full mx-auto max-w-lg mb-10">
-      <h1 className="text-3xl font-bold">SHOPPERS</h1>
+      <Link className="text-3xl font-bold" to="/">
+        Shoppers
+      </Link>
+
       {isLoggedIn ? (
         <div className="flex items-center gap-5">
           <Link to="/">Home</Link>
@@ -29,12 +52,7 @@ function Navbar() {
         </div>
       ) : (
         <div>
-          <Link
-            onClick={() => setIsLoginPage((state) => !state)}
-            to={!isLoginPage ? "/login" : "/"}
-          >
-            {isLoginPage ? "Create New Account" : "Login"}
-          </Link>
+          <Link to={to}>{text}</Link>
         </div>
       )}
     </nav>

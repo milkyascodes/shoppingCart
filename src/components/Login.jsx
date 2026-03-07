@@ -4,7 +4,6 @@ function Login() {
   return (
     <div className="w-full mx-auto max-w-sm">
       <form action="" className="flex flex-col gap-4">
-        <FormField label="User name" type="text" name="username" />
         <FormField label="Email" type="text" name="email" />
         <FormField label="Password" type="password" name="password" />
         <button
