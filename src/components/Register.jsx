@@ -16,10 +16,21 @@ function Register() {
     e.preventDefault();
     console.log("form", form);
 
-    dispatch(register(form)).then((action) => {
-      localStorage.setItem("accessToken", action.payload.token);
-    });
-    navigate("/products");
+    // dispatch(register(form))
+    dispatch(register(form))
+      .unwrap() // unwraps the thunk result
+      .then((payload) => {
+        // This only runs if registration succeeded
+        localStorage.setItem("accessToken", payload.token);
+        navigate("/products");
+      })
+      .catch((error) => {
+        // This runs if registration failed
+        console.log("Registration failed:", error);
+        alert(
+          "Registration failed: " + (error.message || JSON.stringify(error)),
+        );
+      });
   }
   function handleChange(e) {
     const { name, value } = e.target;

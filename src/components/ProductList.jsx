@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../features/shoppingCart/productSlice";
 import { addToCart } from "../features/shoppingCart/cartSlice";
-import Navbar from "./Navbar";
 
 function ProductList() {
   const { items: products, status } = useSelector((state) => state.products);
@@ -25,7 +24,6 @@ function ProductList() {
 
   return (
     <div className="w-full ">
-      <Navbar />
       {status === "loading" ? (
         <p className="text-center">Loading..</p>
       ) : status === "failed" ? (
