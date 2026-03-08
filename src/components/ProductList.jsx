@@ -5,12 +5,11 @@ import { addToCart } from "../features/shoppingCart/cartSlice";
 
 function ProductList() {
   const { items: products, status } = useSelector((state) => state.products);
-  const dispatch = useDispatch();
+
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const dispatch = useDispatch();
   useEffect(() => {
     if (status === "idle") {
-      console.log("idle");
-
       dispatch(fetchProducts());
     }
   }, [status]);
@@ -35,9 +34,9 @@ function ProductList() {
               <button
                 className={`  ${
                   selectedCategory === category
-                    ? "bg-blue-500 text-white" // selected
-                    : "bg-gray-200 text-gray-800" // not selected
-                } px-3 py-1 bg-gray-200 rounded-full text-sm`}
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-800"
+                } px-3 py-1  rounded-full text-sm`}
                 key={category}
                 onClick={() => setSelectedCategory(category)}
               >

@@ -15,7 +15,7 @@ function Cart() {
     <div className="w-full mx-auto max-w-lg">
       <div className="flex justify-between items-center mb-10">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/products")}
           className=" text-black rounded-md"
         >
           ← Continue Shopping

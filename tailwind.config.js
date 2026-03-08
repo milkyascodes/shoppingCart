@@ -4,6 +4,7 @@ export default {
     extend: {
       fontFamily: {
         cinzel: ["Cinzel", "sans-serif"],
+        nunito: ["Nunito", "sans-serif"],
       },
     },
   },

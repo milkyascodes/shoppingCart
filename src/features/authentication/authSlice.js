@@ -54,6 +54,11 @@ export const getCurrentUser = createAsyncThunk(
     }
   },
 );
+export const logout = createAsyncThunk("auth/logout", async () => {
+  console.log("loggin out");
+
+  localStorage.removeItem("accessToken");
+});
 
 const authSlice = createSlice({
   name: "auth",
@@ -97,12 +102,18 @@ const authSlice = createSlice({
       .addCase(getCurrentUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.currentUser = action.payload;
+        console.log("user user");
       })
       .addCase(getCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
         state.currentUser = null;
-        state.error = action.payload; // capture server or network errors
-        console.log("user failed:", action.payload);
+        state.error = action.payload;
+        // capture server or network errors
+        console.log("Current User:", action.payload);
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.isLoading = false;
+        state.currentUser = null;
       });
   },
 });

@@ -1,12 +1,15 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { logout } from "../features/authentication/authSlice";
 
 function Navbar() {
+  const auth = useSelector((state) => state.auth);
   const { items: cartItems } = useSelector((state) => state.cart);
 
   const location = useLocation();
 
+  const dispatch = useDispatch();
   function getLinkInfo(path) {
     switch (path) {
       case "/":
@@ -16,13 +19,11 @@ function Navbar() {
       case "/register":
         return { to: "/login", text: "Login" };
       default:
-        return { to: "/register", text: "Register" };
+        return { to: "/register", text: "Create New Account" };
     }
   }
 
   const { to, text } = getLinkInfo(location.pathname);
-
-  const isLoggedIn = false;
 
   useEffect(() => {
     getLinkInfo(location);
@@ -34,14 +35,16 @@ function Navbar() {
         Shoppers
       </Link>
 
-      {isLoggedIn ? (
+      {!auth.currentUser ? (
+        <div>
+          <Link to={to}>{text}</Link>
+        </div>
+      ) : (
         <div className="flex items-center gap-5">
-          <Link to="/">Home</Link>
-
+          <Link to="/products"> Products</Link>
           <Link to="/cart">
             <div className="relative">
               <button className="p-2  rounded"> 🛒</button>
-
               {cartItems.length !== 0 && (
                 <span className="absolute transition-all -top-2 -right-2 flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full">
                   {cartItems.length}
@@ -49,10 +52,15 @@ function Navbar() {
               )}
             </div>
           </Link>
-        </div>
-      ) : (
-        <div>
-          <Link to={to}>{text}</Link>
+          <button
+            onClick={() => {
+              dispatch(logout());
+              console.log("log", logout);
+            }}
+            className=" font-bold"
+          >
+            Log out
+          </button>{" "}
         </div>
       )}
     </nav>
