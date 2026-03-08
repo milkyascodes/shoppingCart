@@ -35,6 +35,25 @@ export const login = createAsyncThunk(
     }
   },
 );
+export const getCurrentUser = createAsyncThunk(
+  "auth/getCurrentUser",
+  async (_, thunkAPI) => {
+    try {
+      const token = localStorage.getItem("accessToken") ?? "";
+      const response = await axios.get("https://api.realworld.show/api/user", {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+      console.log("Server response:", response.data);
+      return response.data.user;
+    } catch (error) {
+      // Safe fallback if response or data is undefined
+      const errors = error.response?.data?.errors || { message: error.message };
+      return thunkAPI.rejectWithValue(errors);
+    }
+  },
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -70,6 +89,20 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload; // capture server or network errors
         console.log("Login failed:", action.payload);
+      })
+      .addCase(getCurrentUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentUser = action.payload;
+      })
+      .addCase(getCurrentUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.currentUser = null;
+        state.error = action.payload; // capture server or network errors
+        console.log("user failed:", action.payload);
       });
   },
 });
